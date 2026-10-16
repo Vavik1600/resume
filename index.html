@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вячеслав Фадеев — продуктовый аналитик</title>
+<meta name="description" content="Резюме продуктового аналитика Вячеслава Фадеева: Яндекс Лавка, подписки, A/B-тесты, когортный анализ, DataLens, SQL/YQL.">
+<style>
+  :root{
+    --ink:#111111;
+    --ink-2:#2b2b2b;
+    --muted:#5f5f5f;
+    --line:#e7e7e7;
+    --line-dark:#111111;
+    --paper:#ffffff;
+    --yellow:#ffdb4d;
+    --yellow-soft:#fff6c5;
+    --accent:#111111;
+    --radius:2px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html:focus-within{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:var(--ink); text-underline-offset:3px; text-decoration-thickness:1px}
+  a:hover{text-decoration-thickness:2px}
+  ::selection{background:var(--yellow); color:#111}
+
+  .topbar{
+    border-bottom:1px solid var(--ink);
+    background:#fff;
+    position:sticky; top:0; z-index:20;
+  }
+  .topbar-inner{
+    max-width:1120px; margin:0 auto; padding:0 28px;
+    height:52px; display:flex; align-items:center; justify-content:space-between; gap:20px;
+  }
+  .brand{font-weight:700; letter-spacing:-0.02em; font-size:14px; white-space:nowrap}
+  .brand span{font-weight:400; color:var(--muted)}
+  .nav{display:flex; gap:22px; font-size:13.5px}
+  .nav a{text-decoration:none; color:var(--muted)}
+  .nav a:hover{color:var(--ink); text-decoration:underline}
+  .nav a.active{color:var(--ink); font-weight:600}
+  .top-actions{display:flex; gap:10px; align-items:center}
+  .btn{
+    appearance:none; border:1px solid var(--ink); background:var(--ink); color:#fff;
+    font:inherit; font-size:13px; font-weight:600; padding:7px 12px; border-radius:var(--radius); cursor:pointer; line-height:1;
+  }
+  .btn--ghost{background:#fff; color:var(--ink)}
+  .btn:hover{opacity:.88}
+  .btn:active{transform:translateY(1px)}
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px}
+
+  /* HEADER — не центрированный hero, а газетная шапка */
+  header{padding:48px 0 0}
+  .header-grid{
+    display:grid; grid-template-columns: 1.35fr .65fr; gap:48px; align-items:end;
+    padding-bottom:28px; border-bottom:3px solid var(--ink);
+  }
+  .name{
+    font-family: Georgia, "Times New Roman", "PT Serif", serif;
+    font-size:64px; line-height:.95; letter-spacing:-0.03em; font-weight:700; margin:0;
+  }
+  .name i{font-style:normal; background:linear-gradient(transparent 62%, var(--yellow) 62%)}
+  .role{
+    margin:18px 0 0; font-size:20px; line-height:1.3; font-weight:600; letter-spacing:-0.01em; max-width:560px;
+  }
+  .role em{font-style:normal; font-weight:400; color:var(--muted)}
+  .header-meta{margin:14px 0 0; color:var(--muted); font-size:14.5px; max-width:560px}
+  .header-meta strong{color:var(--ink); font-weight:600}
+
+  .contact-box{border:1px solid var(--ink); padding:18px 18px 16px; background:#fff}
+  .contact-box h2{margin:0 0 12px; font-size:12px; letter-spacing:.08em; text-transform:uppercase; font-weight:700}
+  .contact-list{list-style:none; margin:0; padding:0; display:grid; gap:10px; font-size:14px}
+  .contact-list li{display:flex; justify-content:space-between; gap:16px; border-bottom:1px solid var(--line); padding-bottom:10px}
+  .contact-list li:last-child{border-bottom:0; padding-bottom:0}
+  .contact-list .k{color:var(--muted); flex-shrink:0}
+  .contact-list .v{font-weight:600; text-align:right; word-break:break-word}
+  .contact-list .v a{font-weight:600}
+  .copy-btn{border:0; background:none; cursor:pointer; font:inherit; font-size:12px; color:var(--muted); padding:0; margin-left:6px; text-decoration:underline; text-underline-offset:2px}
+  .copy-btn:hover{color:var(--ink)}
+
+  /* Цифры — полоса фактов, без карточек */
+  .facts{
+    display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid var(--line);
+  }
+  .fact{padding:22px 18px 20px; border-right:1px solid var(--line)}
+  .fact:first-child{padding-left:0}
+  .fact:last-child{border-right:0; padding-right:0}
+  .fact-num{font-family:Georgia, serif; font-size:36px; line-height:1; letter-spacing:-0.03em; font-weight:700}
+  .fact-num mark{background:var(--yellow); padding:0 4px}
+  .fact-label{margin-top:8px; font-size:13.5px; line-height:1.45; color:var(--ink-2)}
+  .fact-sub{margin-top:4px; font-size:12.5px; color:var(--muted); line-height:1.4}
+
+  /* Секции */
+  section{padding:36px 0 8px; scroll-margin-top:72px}
+  .section-head{
+    display:flex; align-items:baseline; gap:16px; border-top:1px solid var(--ink); padding-top:18px; margin-bottom:22px;
+  }
+  .section-num{font-family:Georgia, serif; font-size:13px; font-weight:700; background:var(--ink); color:#fff; width:28px; height:28px; display:grid; place-items:center; flex-shrink:0; border-radius:50%; transform:translateY(2px)}
+  .section-head h2{margin:0; font-size:22px; letter-spacing:-0.02em; line-height:1}
+  .section-head p{margin:0; margin-left:auto; font-size:13px; color:var(--muted); text-align:right; max-width:360px}
+
+  .about{columns:2; column-gap:48px; font-size:16px; line-height:1.65; color:var(--ink-2)}
+  .about p{margin:0 0 14px; break-inside:avoid}
+  .about strong{color:var(--ink)}
+  .about .lead{font-size:17px; line-height:1.6; color:var(--ink)}
+
+  /* Опыт */
+  .job{border-top:1px solid var(--line); padding:24px 0 28px; display:grid; grid-template-columns:168px 1fr; gap:28px}
+  .job:first-of-type{border-top:0; padding-top:4px}
+  .job-date{font-size:13px; line-height:1.5; color:var(--muted)}
+  .job-date strong{display:block; color:var(--ink); font-size:13.5px; font-weight:700}
+  .job-date .dur{display:inline-block; margin-top:8px; background:#f3f3f3; border:1px solid var(--line); padding:2px 7px; font-size:12px; color:var(--ink-2); border-radius:20px}
+  .job-main h3{margin:0; font-size:19px; letter-spacing:-0.01em; line-height:1.2}
+  .job-main h3 span{font-weight:400; color:var(--muted)}
+  .job-company{margin:5px 0 0; font-size:14px; color:var(--muted)}
+  .job-company b{color:var(--ink); font-weight:700}
+  .job-desc{margin:14px 0 0; font-size:15px; line-height:1.6; color:var(--ink-2); max-width:760px}
+  .job-blocks{margin-top:18px; display:grid; gap:0; border-top:1px solid var(--line)}
+  .block{display:grid; grid-template-columns:220px 1fr; gap:20px; padding:16px 0; border-bottom:1px solid var(--line)}
+  .block:last-child{border-bottom:0}
+  .block h4{margin:0; font-size:13px; line-height:1.4; font-weight:700; letter-spacing:.01em}
+  .block h4 span{display:block; margin-top:4px; font-weight:400; color:var(--muted); font-size:12.5px; letter-spacing:0}
+  .block p, .block li{font-size:14.5px; line-height:1.6; color:var(--ink-2)}
+  .block p{margin:0}
+  .block ul{margin:0; padding-left:18px}
+  .block li{margin:3px 0}
+  .block li::marker{color:#999}
+  .inline-num{font-weight:700; color:var(--ink); background:var(--yellow-soft); padding:0 3px; border-radius:2px; white-space:nowrap}
+  .tags{margin-top:14px; display:flex; flex-wrap:wrap; gap:6px}
+  .tag{font-size:12px; line-height:1; padding:6px 8px; border:1px solid #d8d8d8; background:#fff; border-radius:20px; color:var(--ink-2)}
+  .stack{margin-top:12px; font-size:13px; color:var(--muted)}
+  .stack b{color:var(--ink)}
+
+  /* Навыки — таблица, а не плитки */
+  .skills-table{width:100%; border-collapse:collapse; font-size:14.5px}
+  .skills-table th, .skills-table td{ text-align:left; vertical-align:top; padding:14px 0; border-bottom:1px solid var(--line)}
+  .skills-table th{width:220px; font-size:13px; font-weight:700; padding-right:20px}
+  .skills-table th span{display:block; font-weight:400; color:var(--muted); margin-top:3px; font-size:12.5px}
+  .skills-table td{color:var(--ink-2); line-height:1.6}
+  .skills-table tr:last-child th, .skills-table tr:last-child td{border-bottom:0}
+  .pill{display:inline-block; border:1px solid #ddd; padding:3px 8px; border-radius:20px; font-size:12.5px; margin:2px 2px 2px 0; background:#fff; color:var(--ink); white-space:nowrap}
+
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:48px}
+  .info-list{list-style:none; margin:0; padding:0}
+  .info-list li{display:flex; justify-content:space-between; gap:20px; padding:11px 0; border-bottom:1px solid var(--line); font-size:14.5px}
+  .info-list li:last-child{border-bottom:0}
+  .info-list .k{color:var(--muted)}
+  .info-list .v{font-weight:600; text-align:right}
+  .note{font-size:13px; color:var(--muted); line-height:1.5; margin-top:10px}
+
+  /* CTA внизу */
+  .cta{
+    margin:36px 0 0; border:1px solid var(--ink); padding:28px; display:grid; grid-template-columns:1fr auto; gap:24px; align-items:center; background:#fff;
+  }
+  .cta h3{margin:0; font-family:Georgia, serif; font-size:28px; letter-spacing:-0.02em; line-height:1.1}
+  .cta p{margin:8px 0 0; color:var(--muted); font-size:14.5px; max-width:520px; line-height:1.55}
+  .cta-actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+  .cta .btn{padding:12px 16px; font-size:14px}
+  .cta .btn--ghost{border-color:#d6d6d6}
+
+  footer{margin-top:36px; border-top:1px solid var(--ink); padding:18px 0 28px; display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap; font-size:12.5px; color:var(--muted)}
+  footer b{color:var(--ink)}
+
+  /* Мобильная версия */
+  @media (max-width:860px){
+    .wrap{padding:0 18px}
+    .topbar-inner{padding:0 18px}
+    .nav{display:none}
+    .header-grid{grid-template-columns:1fr; gap:20px}
+    .name{font-size:46px}
+    .facts{grid-template-columns:1fr 1fr}
+    .fact{border-bottom:1px solid var(--line); padding:18px 12px}
+    .fact:first-child{padding-left:0}
+    .fact:nth-child(2){border-right:0}
+    .about{columns:1}
+    .job{grid-template-columns:1fr; gap:12px}
+    .block{grid-template-columns:1fr; gap:6px}
+    .two-col{grid-template-columns:1fr; gap:8px}
+    .skills-table th{width:150px}
+    .cta{grid-template-columns:1fr}
+    .cta-actions{justify-content:flex-start}
+    .section-head{flex-wrap:wrap}
+    .section-head p{margin-left:44px; text-align:left; max-width:none}
+  }
+  @media (max-width:480px){
+    .name{font-size:38px}
+    .facts{grid-template-columns:1fr}
+    .fact{border-right:0; padding-left:0}
+    .top-actions .btn--ghost{display:none}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *{transition:none !important; animation:none !important}
+  }
+  @media print{
+    .topbar, .cta, .copy-btn{display:none !important}
+    body{font-size:12pt}
+    .wrap{max-width:none; padding:0}
+    header{padding-top:12px}
+    a{text-decoration:none}
+    section{break-inside:avoid}
+    .job{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">Вячеслав Фадеев <span>— продуктовый аналитик</span></div>
+    <nav class="nav" aria-label="Разделы резюме">
+      <a href="#about">О себе</a>
+      <a href="#experience">Опыт</a>
+      <a href="#skills">Навыки</a>
+      <a href="#details">Детали</a>
+    </nav>
+    <div class="top-actions">
+      <button class="btn btn--ghost" type="button" id="printBtn">Печать / PDF</button>
+      <a class="btn" href="https://t.me/vavik16" target="_blank" rel="noreferrer">Telegram</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header>
+    <div class="header-grid">
+      <div>
+        <h1 class="name">Фадеев<br>Вячеслав <i>Александрович</i></h1>
+        <p class="role">Продуктовый аналитик. <em>Подписки, экосистема и международная экспансия в Яндекс Лавке. До этого — антифрод в iGaming и аналитика в Додо Пицце.</em></p>
+        <p class="header-meta"><strong>Москва</strong> · не готов к переезду, готов к командировкам · полная занятость: офис, удалённо, гибрид · опыт — <strong>3 года 9 месяцев</strong></p>
+      </div>
+
+      <aside class="contact-box" aria-label="Контакты">
+        <h2>Контакты</h2>
+        <ul class="contact-list">
+          <li><span class="k">Телефон</span><span class="v"><a href="tel:+79996955024">+7 999 695-50-24</a></span></li>
+          <li><span class="k">Telegram</span><span class="v"><a href="https://t.me/vavik16" target="_blank" rel="noreferrer">t.me/vavik16</a> · @vavik16</span></li>
+          <li><span class="k">Почта</span><span class="v"><a href="mailto:amway1612@gmail.com" id="emailLink">amway1612@gmail.com</a><button class="copy-btn" type="button" id="copyEmail">копировать</button></span></li>
+          <li><span class="k">Город</span><span class="v">Москва, Россия</span></li>
+          <li><span class="k">Связь</span><span class="v">Telegram — предпочитаемый способ</span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="facts" aria-label="Ключевые цифры">
+      <div class="fact">
+        <div class="fact-num"><mark>150+</mark></div>
+        <div class="fact-label">аналитических задач закрыто в Лавке</div>
+        <div class="fact-sub">A/B-тесты, юнит-экономика, когорты, дашборды, ad-hoc</div>
+      </div>
+      <div class="fact">
+        <div class="fact-num">87% → 54%</div>
+        <div class="fact-label">падение удержания на 60-й день от когорты к когорте</div>
+        <div class="fact-sub">Нашёл ускорение оттока подписчиков</div>
+      </div>
+      <div class="fact">
+        <div class="fact-num">≈80% / ≈27%</div>
+        <div class="fact-label">удержание: лояльные против «спящих»</div>
+        <div class="fact-sub">Сегментация подписчиков по поведению</div>
+      </div>
+      <div class="fact">
+        <div class="fact-num">10–50%</div>
+        <div class="fact-label">поправка на каннибализацию</div>
+        <div class="fact-sub">При расчёте инкрементальной выручки и GMV запусков</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="section-head">
+      <span class="section-num">1</span>
+      <h2>О себе — коротко и по делу</h2>
+      <p>Только то, что есть в резюме. Без общих слов.</p>
+    </div>
+    <div class="about">
+      <p class="lead">Сейчас — продуктовый аналитик в <strong>Яндекс Лавке</strong>. Стрим подписочных продуктов, экосистемы, интеграций между сервисами и международной экспансии (KZ, UZ). Работаю с большими данными на <strong>SQL / YQL и YT</strong>, строю дашборды и витрины в <strong>DataLens</strong>.</p>
+      <p>В подписке делал полный разбор удержания и окупаемости когорт. Показал, что отток ускоряется: удержание на 60-й день падало <strong>с 87% до 54%</strong>. Разделил подписчиков по поведению — у лояльных удержание около <strong>80%</strong>, у «спящих» около <strong>27%</strong> — и построил предиктивную модель оттока. По ней предложил триггерные коммуникации для групп риска.</p>
+      <p>Считал ценовые офферы и пороги пенетрации подписчиков на дарксторах. Операционный порог, который определил по данным, — <strong>15% доли подписчиков</strong>.</p>
+      <p>В экосистеме измерял перетоки и каннибализацию между Лавкой, Едой и другими сервисами. Оценивал витрины экосистемных действий, хабы готовой еды, бренд-карусели и триггерные механики. Инкремент считал уже с поправкой на каннибализацию.</p>
+      <p>На международной экспансии сравнивал воронки РФ и KZ/UZ и локализовал главную проблему рынка — провал на входе в каталог, на шаге <strong>sessions → catalog open</strong>. На основе этого формировал рекомендации и дизайны A/B-тестов под рынок.</p>
+      <p>Отдельный пласт — эксперименты. Проектирую дизайн, подбираю метрики, считаю значимость (доверительные интервалы, t-статистики, p-value), ищу систематические искажения и защищаю результаты в АБТ.</p>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head">
+      <span class="section-num">2</span>
+      <h2>Опыт работы</h2>
+      <p>3 года 9 месяцев. От новых к старым.</p>
+    </div>
+
+    <article class="job">
+      <div class="job-date">
+        <strong>Август 2025 —<br>октябрь 2026</strong>
+        <span class="dur">1 год 3 месяца</span><br>
+        Москва
+      </div>
+      <div class="job-main">
+        <h3>Продуктовый аналитик <span>— Яндекс Лавка</span></h3>
+        <p class="job-company"><b>Стрим:</b> подписочные продукты · экосистема · интеграции между сервисами · международная экспансия (KZ, UZ)</p>
+        <p class="job-desc">Закрыл <strong>150+ аналитических задач</strong>: дизайн и анализ A/B-экспериментов, юнит-экономика, когортный анализ удержания, исследования поведения, расчёт эффектов и бюджетов запусков, дашборды и витрины в DataLens. Большие данные — SQL/YQL, YT.</p>
+
+        <div class="job-blocks">
+          <div class="block">
+            <h4>Подписка: удержание и отток <span>Когорты, churn-модель, офферы</span></h4>
+            <div>
+              <p>Разобрал удержание и окупаемость когорт. Выявил ускорение оттока от когорты к когорте: удержание на 60-й день падало <span class="inline-num">с 87% до 54%</span>. Сегментировал подписчиков по поведению — лояльные удерживались в <span class="inline-num">~80%</span> случаев против <span class="inline-num">~27%</span> у «спящих». Построил предиктивную модель оттока и предложил триггерные коммуникации для групп риска. Рассчитывал и итерировал ценовые офферы, оптимизировал пороги пенетрации на дарксторах — операционный порог <span class="inline-num">15% доли подписчиков</span>.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <h4>Экосистема и интеграции <span>Лавка × Еда × другие сервисы</span></h4>
+            <div>
+              <p>Измерял перетоки и каннибализацию между поверхностями. Оценивал эффективность витрин экосистемных действий, хабов готовой еды, бренд-каруселей и триггерных механик. Считал инкрементальную выручку и GMV запусков с поправкой на каннибализацию <span class="inline-num">10–50%</span>.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <h4>Международная экспансия <span>KZ, UZ</span></h4>
+            <div>
+              <p>Сравнивал воронки и поведение пользователей РФ vs KZ/UZ. Локализовал ключевую проблему рынка — провал на входе в каталог: конверсия <span class="inline-num">sessions → catalog open</span>. На основе этого формировал продуктовые рекомендации и дизайн A/B-тестов под рынок.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <h4>A/B-эксперименты <span>Дизайн и защита результатов</span></h4>
+            <div>
+              <p>Разрабатывал дизайн экспериментов, подбирал и рассчитывал метрики, оценивал статистическую значимость: доверительные интервалы, t-статистики, p-value. Выявлял систематические искажения экспериментов, защищал результаты в АБТ и переводил их в продуктовые выводы.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <h4>Дашборды и витрины <span>DataLens</span></h4>
+            <div>
+              <p>Строил и развивал дашборды и витрины в DataLens: подписочные метрики, ритейл «по пути», PnL Pivot, мониторинг ключевых продуктовых показателей. Плюс регулярная ad-hoc аналитика, выгрузки и сегментация аудитории по запросам продуктовых и бизнес-команд.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tags" aria-label="Ключевые навыки в Лавке">
+          <span class="tag">Продуктовая аналитика</span><span class="tag">A/B-тестирование</span><span class="tag">Когортный анализ</span><span class="tag">Юнит-экономика</span><span class="tag">Retention / churn</span><span class="tag">Каннибализация</span><span class="tag">Подписки</span><span class="tag">SQL · YQL · YT</span><span class="tag">DataLens</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="job-date">
+        <strong>Март 2025 —<br>июль 2025</strong>
+        <span class="dur">5 месяцев</span>
+      </div>
+      <div class="job-main">
+        <h3>Антифрод-аналитик <span>— NDA (iGaming)</span></h3>
+        <p class="job-company">Команда аналитики партнёрской программы</p>
+        <div class="job-blocks">
+          <div class="block">
+            <h4>Что делал</h4>
+            <ul>
+              <li>Автоматизировал имеющиеся проверки с помощью <b>pandas</b> и <b>Google Sheets API</b>.</li>
+              <li>Ежедневно мониторил подозрительных партнёров и игроков.</li>
+              <li>Работал с дашбордами, писал скрипты для них (<b>Power BI</b>).</li>
+              <li>Разрабатывал регламенты и дорабатывал существующие.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="job-date">
+        <strong>Декабрь 2022 —<br>декабрь 2024</strong>
+        <span class="dur">2 года 1 месяц</span>
+      </div>
+      <div class="job-main">
+        <h3>Аналитик <span>— Додо Пицца</span></h3>
+        <p class="job-company">Команда аналитики: доставка, найм курьеров, обратная связь</p>
+        <div class="job-blocks">
+          <div class="block">
+            <h4>Что делал</h4>
+            <ul>
+              <li>Анализировал данные и выдвигал статистические гипотезы.</li>
+              <li>Обрабатывал данные из <b>PostgreSQL</b> на Python: <b>pandas, NumPy, SciPy, Matplotlib</b>.</li>
+              <li>Разрабатывал интерактивные дашборды и инфографику в <b>Superset</b>.</li>
+              <li>Анализировал и визуализировал метрики эффективности бизнеса.</li>
+              <li>Проводил A/B-тест кнопки отмены заказа в приложении.</li>
+              <li>Оптимизировал SQL-запросы для производительности базы.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="stack"><b>Стек:</b> Python · Pandas · NumPy · SciPy · SQL · PostgreSQL · Superset</p>
+      </div>
+    </article>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <span class="section-num">3</span>
+      <h2>Навыки</h2>
+      <p>Сгруппировал по смыслу, а не одним облаком тегов.</p>
+    </div>
+
+    <table class="skills-table">
+      <tr>
+        <th>Продукт и эксперименты <span>Основная специализация</span></th>
+        <td>
+          <span class="pill">Продуктовая аналитика</span> <span class="pill">A/B-тестирование</span> <span class="pill">Дизайн экспериментов</span> <span class="pill">Статистическая значимость</span> <span class="pill">Когортный анализ</span> <span class="pill">Retention</span> <span class="pill">Churn / winback</span> <span class="pill">Юнит-экономика и окупаемость</span> <span class="pill">Каннибализация</span> <span class="pill">Подписочные продукты</span> <span class="pill">Экосистемные продукты</span> <span class="pill">Международная экспансия</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Данные и код <span>Ежедневные инструменты</span></th>
+        <td>
+          <span class="pill">SQL</span> <span class="pill">YQL</span> <span class="pill">YT</span> <span class="pill">Python</span> <span class="pill">Pandas</span> <span class="pill">NumPy</span> <span class="pill">SciPy</span> <span class="pill">Matplotlib</span> <span class="pill">Seaborn</span> <span class="pill">Jupyter Notebook</span> <span class="pill">PostgreSQL</span> <span class="pill">Google Sheets API</span>
+        </td>
+      </tr>
+      <tr>
+        <th>BI и дашборды <span>Витрины и отчётность</span></th>
+        <td>
+          <span class="pill">DataLens</span> <span class="pill">Superset</span> <span class="pill">Power BI</span> <span class="pill">BI</span> <span class="pill">Дашборды и витрины данных</span> <span class="pill">Ad-hoc анализ</span> <span class="pill">Сегментация аудитории</span>
+        </td>
+      </tr>
+      <tr>
+        <th>Статистика <span>База для экспериментов</span></th>
+        <td>Математическая статистика, математический анализ, статистический анализ. Доверительные интервалы, t-статистики, p-value. Работа с большими объёмами данных и базами данных.</td>
+      </tr>
+    </table>
+  </section>
+
+  <section id="details">
+    <div class="section-head">
+      <span class="section-num">4</span>
+      <h2>Детали</h2>
+      <p>Образование, языки и условия — как в исходном резюме.</p>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <ul class="info-list">
+          <li><span class="k">Желаемая должность</span><span class="v">Продуктовый аналитик</span></li>
+          <li><span class="k">Занятость</span><span class="v">Полная занятость</span></li>
+          <li><span class="k">Формат</span><span class="v">Офис · удалённо · гибрид</span></li>
+          <li><span class="k">Время в пути</span><span class="v">Не имеет значения</span></li>
+          <li><span class="k">Переезд / командировки</span><span class="v">Без переезда · командировки ок</span></li>
+        </ul>
+      </div>
+      <div>
+        <ul class="info-list">
+          <li><span class="k">Образование</span><span class="v">Среднее образование</span></li>
+          <li><span class="k">Русский</span><span class="v">Родной</span></li>
+          <li><span class="k">Английский</span><span class="v">B2 — средне-продвинутый</span></li>
+          <li><span class="k">Гражданство</span><span class="v">Россия · разрешение на работу: Россия</span></li>
+          <li><span class="k">Обновлено</span><span class="v">6 октября 2026</span></li>
+        </ul>
+        <p class="note">Источник данных — PDF «Продуктовый аналитик.pdf» (3 страницы, hh-резюме). Ничего не добавлял от себя: даты, цифры и формулировки сверены с файлом.</p>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div>
+        <h3>Обсудить роль?</h3>
+        <p>Быстрее всего — в Telegram. Почта тоже работает, но отвечаю там дольше. Телефон выше, если нужно созвониться.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn" href="https://t.me/vavik16" target="_blank" rel="noreferrer">Написать в Telegram</a>
+        <a class="btn btn--ghost" href="mailto:amway1612@gmail.com">amway1612@gmail.com</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>Вячеслав Фадеев</b> · продуктовый аналитик · Москва</div>
+    <div>Сайт собран из PDF-резюме · <a href="#about">наверх ↑</a></div>
+  </footer>
+</div>
+
+<script>
+  const printBtn = document.getElementById('printBtn');
+  printBtn?.addEventListener('click', () => window.print());
+
+  const copyBtn = document.getElementById('copyEmail');
+  const email = 'amway1612@gmail.com';
+  copyBtn?.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      const old = copyBtn.textContent;
+      copyBtn.textContent = 'скопировано';
+      setTimeout(() => copyBtn.textContent = old, 1600);
+    } catch {
+      // fallback — выделить почту
+      const link = document.getElementById('emailLink');
+      const range = document.createRange();
+      range.selectNodeContents(link);
+      const sel = window.getSelection();
+      sel.removeAllRanges(); sel.addRange(range);
+    }
+  });
+
+  // Подсветка активного раздела в шапке без лишней анимации
+  const links = [...document.querySelectorAll('.nav a')];
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const onScroll = () => {
+    const y = window.scrollY + 90;
+    let current = sections[0];
+    for (const s of sections) if (s.offsetTop <= y) current = s;
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+</body>
+</html>
